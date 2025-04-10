@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 import os
 import json
 from datetime import datetime
-import pymysql  # Changed from mysql-connector-python to pymysql
+import pymysql
 
 app = Flask(__name__)
 app.secret_key = 'dronex_secret_key'  # Change this in production
@@ -188,8 +188,9 @@ def signup():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        name = request.form.get('name', '')
-        emergency_contact = request.form.get('emergency_contact', '')
+        first_name = request.form.get('first_name', '')
+        last_name = request.form.get('last_name', '')
+        phone = request.form.get('phone', '')
         
         connection = get_db_connection()
         if connection:
@@ -213,11 +214,11 @@ def signup():
                         cursor.execute("SELECT id FROM users WHERE email = %s", (email,))
                         user_id = cursor.fetchone()['id']
                         
-                        # Add emergency contact if provided
-                        if emergency_contact:
+                        # Add emergency contact if phone provided
+                        if phone:
                             cursor.execute(
                                 "INSERT INTO contacts (user_id, name, phone, is_emergency) VALUES (%s, %s, %s, %s)",
-                                (user_id, f"Emergency Contact for {name}", emergency_contact, True)
+                                (user_id, f"{first_name} {last_name}", phone, True)
                             )
                             connection.commit()
                         
@@ -277,7 +278,7 @@ def alerts_page():
 def chatbot():
     return render_template('chatbot.html')
 
-@app.route('/contacts', methods=['GET'])
+@app.route('/contacts')
 def contacts():
     if 'user' not in session:
         flash('Please log in to access your contacts', 'error')
@@ -365,178 +366,6 @@ def api_alerts():
             # Fall back to mock data
             return jsonify([])  # Return empty list
 
-@app.route('/api/rescues', methods=['GET', 'POST'])
-def api_rescues():
-    if request.method == 'POST':
-        if 'user' not in session or session['role'] != 'admin':
-            return jsonify({'error': 'Unauthorized'}), 403
-        
-        data = request.json
-        connection = get_db_connection()
-        if connection:
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "INSERT INTO rescues (location, people_count, status, recorded_by) VALUES (%s, %s, %s, %s)",
-                        (
-                            data.get('location'),
-                            data.get('people_count'),
-                            data.get('status'),
-                            session['user']
-                        )
-                    )
-                    connection.commit()
-                    cursor.execute("SELECT LAST_INSERT_ID()")
-                    rescue_id = cursor.fetchone()['LAST_INSERT_ID()']
-                    return jsonify({'success': True, 'rescue_id': rescue_id}), 201
-            finally:
-                connection.close()
-        else:
-            # Fall back to mock data
-            rescues = []  # Mock rescues list
-            rescues.append({
-                'id': len(rescues) + 1,
-                'location': data.get('location'),
-                'people_count': data.get('people_count'),
-                'status': data.get('status'),
-                'timestamp': datetime.now().isoformat(),
-                'recorded_by': session['user']
-            })
-            return jsonify({'success': True, 'rescue_id': len(rescues)}), 201
-    else:
-        connection = get_db_connection()
-        if connection:
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute("SELECT * FROM rescues ORDER BY timestamp DESC")
-                    rescues = cursor.fetchall()
-                    return jsonify(rescues)
-            finally:
-                connection.close()
-        else:
-            # Fall back to mock data
-            return jsonify([])  # Return empty list
-
-@app.route('/api/victims', methods=['GET', 'POST'])
-def api_victims():
-    if request.method == 'POST':
-        if 'user' not in session or session['role'] != 'admin':
-            return jsonify({'error': 'Unauthorized'}), 403
-        
-        data = request.json
-        connection = get_db_connection()
-        if connection:
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "INSERT INTO disaster_victims (name, contact, location, status, needs, recorded_by) VALUES (%s, %s, %s, %s, %s, %s)",
-                        (
-                            data.get('name'),
-                            data.get('contact'),
-                            data.get('location'),
-                            data.get('status'),
-                            json.dumps(data.get('needs', [])),
-                            session['user']
-                        )
-                    )
-                    connection.commit()
-                    cursor.execute("SELECT LAST_INSERT_ID()")
-                    victim_id = cursor.fetchone()['LAST_INSERT_ID()']
-                    return jsonify({'success': True, 'victim_id': victim_id}), 201
-            finally:
-                connection.close()
-        else:
-            # Fall back to mock data
-            disaster_victims = []  # Mock victims list
-            disaster_victims.append({
-                'id': len(disaster_victims) + 1,
-                'name': data.get('name'),
-                'contact': data.get('contact'),
-                'location': data.get('location'),
-                'status': data.get('status'),
-                'needs': data.get('needs', []),
-                'timestamp': datetime.now().isoformat(),
-                'recorded_by': session['user']
-            })
-            return jsonify({'success': True, 'victim_id': len(disaster_victims)}), 201
-    else:
-        connection = get_db_connection()
-        if connection:
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute("SELECT * FROM disaster_victims ORDER BY timestamp DESC")
-                    victims = cursor.fetchall()
-                    # Process JSON fields
-                    for victim in victims:
-                        if isinstance(victim['needs'], str):
-                            victim['needs'] = json.loads(victim['needs'])
-                    return jsonify(victims)
-            finally:
-                connection.close()
-        else:
-            # Fall back to mock data
-            return jsonify([])  # Return empty list
-
-@app.route('/api/safety-locations', methods=['GET', 'POST'])
-def api_safety_locations():
-    if request.method == 'POST':
-        if 'user' not in session or session['role'] != 'admin':
-            return jsonify({'error': 'Unauthorized'}), 403
-        
-        data = request.json
-        connection = get_db_connection()
-        if connection:
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "INSERT INTO safety_locations (name, address, capacity, current_occupancy, resources, created_by) VALUES (%s, %s, %s, %s, %s, %s)",
-                        (
-                            data.get('name'),
-                            data.get('address'),
-                            data.get('capacity'),
-                            data.get('current_occupancy', 0),
-                            json.dumps(data.get('resources', [])),
-                            session['user']
-                        )
-                    )
-                    connection.commit()
-                    cursor.execute("SELECT LAST_INSERT_ID()")
-                    location_id = cursor.fetchone()['LAST_INSERT_ID()']
-                    return jsonify({'success': True, 'location_id': location_id}), 201
-            finally:
-                connection.close()
-        else:
-            # Fall back to mock data
-            safety_locations = []  # Mock locations list
-            safety_locations.append({
-                'id': len(safety_locations) + 1,
-                'name': data.get('name'),
-                'address': data.get('address'),
-                'capacity': data.get('capacity'),
-                'current_occupancy': data.get('current_occupancy', 0),
-                'resources': data.get('resources', []),
-                'created_at': datetime.now().isoformat(),
-                'created_by': session['user']
-            })
-            return jsonify({'success': True, 'location_id': len(safety_locations)}), 201
-    else:
-        connection = get_db_connection()
-        if connection:
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute("SELECT * FROM safety_locations ORDER BY created_at DESC")
-                    locations = cursor.fetchall()
-                    # Process JSON fields
-                    for location in locations:
-                        if isinstance(location['resources'], str):
-                            location['resources'] = json.loads(location['resources'])
-                    return jsonify(locations)
-            finally:
-                connection.close()
-        else:
-            # Fall back to mock data
-            return jsonify([])  # Return empty list
-
 @app.route('/api/contacts', methods=['GET', 'POST'])
 def api_contacts():
     if 'user' not in session:
@@ -545,7 +374,12 @@ def api_contacts():
     user_id = session.get('user_id')
     
     if request.method == 'POST':
-        data = request.json
+        name = request.form.get('name')
+        phone = request.form.get('phone')
+        email = request.form.get('email', '')
+        relationship = request.form.get('relationship', '')
+        is_emergency = True if request.form.get('is_emergency') else False
+        
         connection = get_db_connection()
         if connection:
             try:
@@ -554,20 +388,23 @@ def api_contacts():
                         "INSERT INTO contacts (user_id, name, phone, email, relationship, is_emergency) VALUES (%s, %s, %s, %s, %s, %s)",
                         (
                             user_id,
-                            data.get('name'),
-                            data.get('phone'),
-                            data.get('email'),
-                            data.get('relationship'),
-                            data.get('is_emergency', False)
+                            name,
+                            phone,
+                            email,
+                            relationship,
+                            is_emergency
                         )
                     )
                     connection.commit()
-                    cursor.execute("SELECT LAST_INSERT_ID()")
-                    contact_id = cursor.fetchone()['LAST_INSERT_ID()']
-                    return jsonify({'success': True, 'contact_id': contact_id}), 201
+                    flash('Contact added successfully!', 'success')
+            except Exception as e:
+                flash(f'Error adding contact: {e}', 'error')
             finally:
                 connection.close()
-        return jsonify({'error': 'Failed to add contact'}), 500
+        else:
+            flash('Failed to connect to database', 'error')
+        
+        return redirect(url_for('contacts'))
     else:
         if user_id:
             connection = get_db_connection()
@@ -581,16 +418,18 @@ def api_contacts():
                     connection.close()
         return jsonify([])
 
-@app.route('/api/contacts/<int:contact_id>', methods=['PUT', 'DELETE'])
-def api_contact(contact_id):
+@app.route('/api/contacts/<int:contact_id>', methods=['POST'])
+def update_contact(contact_id):
     if 'user' not in session:
-        return jsonify({'error': 'Unauthorized'}), 403
+        flash('Please log in to manage contacts', 'error')
+        return redirect(url_for('login'))
     
     user_id = session.get('user_id')
     connection = get_db_connection()
     
     if not connection:
-        return jsonify({'error': 'Database connection failed'}), 500
+        flash('Database connection failed', 'error')
+        return redirect(url_for('contacts'))
     
     try:
         with connection.cursor() as cursor:
@@ -599,31 +438,69 @@ def api_contact(contact_id):
             contact = cursor.fetchone()
             
             if not contact:
-                return jsonify({'error': 'Contact not found or unauthorized'}), 404
+                flash('Contact not found or unauthorized', 'error')
+                return redirect(url_for('contacts'))
             
-            if request.method == 'DELETE':
-                cursor.execute("DELETE FROM contacts WHERE id = %s", (contact_id,))
-                connection.commit()
-                return jsonify({'success': True}), 200
+            name = request.form.get('name')
+            phone = request.form.get('phone')
+            email = request.form.get('email', '')
+            relationship = request.form.get('relationship', '')
+            is_emergency = True if request.form.get('is_emergency') else False
             
-            elif request.method == 'PUT':
-                data = request.json
-                cursor.execute(
-                    "UPDATE contacts SET name = %s, phone = %s, email = %s, relationship = %s, is_emergency = %s WHERE id = %s",
-                    (
-                        data.get('name'),
-                        data.get('phone'),
-                        data.get('email'),
-                        data.get('relationship'),
-                        data.get('is_emergency', False),
-                        contact_id
-                    )
+            cursor.execute(
+                "UPDATE contacts SET name = %s, phone = %s, email = %s, relationship = %s, is_emergency = %s WHERE id = %s",
+                (
+                    name,
+                    phone,
+                    email,
+                    relationship,
+                    is_emergency,
+                    contact_id
                 )
-                connection.commit()
-                return jsonify({'success': True}), 200
+            )
+            connection.commit()
+            flash('Contact updated successfully!', 'success')
+    except Exception as e:
+        flash(f'Error updating contact: {e}', 'error')
     finally:
         connection.close()
+    
+    return redirect(url_for('contacts'))
 
+@app.route('/api/contacts/<int:contact_id>/delete', methods=['POST'])
+def delete_contact(contact_id):
+    if 'user' not in session:
+        flash('Please log in to manage contacts', 'error')
+        return redirect(url_for('login'))
+    
+    user_id = session.get('user_id')
+    connection = get_db_connection()
+    
+    if not connection:
+        flash('Database connection failed', 'error')
+        return redirect(url_for('contacts'))
+    
+    try:
+        with connection.cursor() as cursor:
+            # Verify the contact belongs to the user
+            cursor.execute("SELECT * FROM contacts WHERE id = %s AND user_id = %s", (contact_id, user_id))
+            contact = cursor.fetchone()
+            
+            if not contact:
+                flash('Contact not found or unauthorized', 'error')
+                return redirect(url_for('contacts'))
+            
+            cursor.execute("DELETE FROM contacts WHERE id = %s", (contact_id,))
+            connection.commit()
+            flash('Contact deleted successfully!', 'success')
+    except Exception as e:
+        flash(f'Error deleting contact: {e}', 'error')
+    finally:
+        connection.close()
+    
+    return redirect(url_for('contacts'))
+
+# Main execution
 if __name__ == '__main__':
     init_db()  # Initialize database tables
     app.run(debug=True)

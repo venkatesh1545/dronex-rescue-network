@@ -1,137 +1,114 @@
 
+// Toggle mobile menu for responsive design
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
     
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
-            // Toggle icon between bars and X
-            const icon = mobileMenuBtn.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+        });
+    }
+    
+    // Contact form modal handling
+    const addContactBtn = document.getElementById('add-contact-btn');
+    const contactModal = document.getElementById('contact-modal');
+    const closeModal = document.querySelector('.modal-close');
+    
+    if (addContactBtn && contactModal) {
+        addContactBtn.addEventListener('click', function() {
+            contactModal.style.display = 'block';
+        });
+    }
+    
+    if (closeModal && contactModal) {
+        closeModal.addEventListener('click', function() {
+            contactModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target === contactModal) {
+                contactModal.style.display = 'none';
             }
         });
     }
     
-    // Flash message close buttons
-    const closeButtons = document.querySelectorAll('.close-flash');
-    closeButtons.forEach(button => {
+    // Form validation
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+            
+            if (!nameInput.value.trim()) {
+                event.preventDefault();
+                alert('Name is required');
+                return;
+            }
+            
+            if (!phoneInput.value.trim()) {
+                event.preventDefault();
+                alert('Phone number is required');
+                return;
+            }
+        });
+    }
+    
+    // Edit contact handling
+    const editButtons = document.querySelectorAll('.edit-contact');
+    editButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const flashMessage = this.parentElement;
-            flashMessage.style.opacity = '0';
-            setTimeout(() => {
-                flashMessage.remove();
-            }, 300);
+            const contactId = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const phone = this.getAttribute('data-phone');
+            const email = this.getAttribute('data-email');
+            const relationship = this.getAttribute('data-relationship');
+            const isEmergency = this.getAttribute('data-emergency') === 'True';
+            
+            // Populate form
+            document.getElementById('contact-id').value = contactId;
+            document.getElementById('name').value = name || '';
+            document.getElementById('phone').value = phone || '';
+            document.getElementById('email').value = email || '';
+            document.getElementById('relationship').value = relationship || '';
+            document.getElementById('is_emergency').checked = isEmergency;
+            
+            // Update form action and button text
+            document.getElementById('contact-form').action = `/api/contacts/${contactId}`;
+            document.getElementById('form-submit-btn').textContent = 'Update Contact';
+            document.getElementById('contact-modal-title').textContent = 'Edit Contact';
+            
+            // Show modal
+            contactModal.style.display = 'block';
         });
     });
     
-    // Auto-dismiss flash messages after 5 seconds
-    const flashMessages = document.querySelectorAll('.flash-message');
+    // Delete contact handling
+    const deleteButtons = document.querySelectorAll('.delete-contact');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const contactId = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            
+            if (confirm(`Are you sure you want to delete ${name}?`)) {
+                // Create and submit a form to delete the contact
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/api/contacts/${contactId}/delete`;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    });
+    
+    // Flash message auto-dismiss
+    const flashMessages = document.querySelectorAll('.alert');
     flashMessages.forEach(message => {
         setTimeout(() => {
             message.style.opacity = '0';
             setTimeout(() => {
-                message.remove();
-            }, 300);
+                message.style.display = 'none';
+            }, 500);
         }, 5000);
     });
-    
-    // Tabs functionality
-    const tabButtons = document.querySelectorAll('.tab');
-    if (tabButtons.length > 0) {
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Get the target content ID from the data attribute
-                const target = button.getAttribute('data-tab');
-                
-                // Remove active class from all tabs and content
-                document.querySelectorAll('.tab').forEach(tab => {
-                    tab.classList.remove('active');
-                });
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Add active class to clicked tab and corresponding content
-                button.classList.add('active');
-                document.getElementById(target).classList.add('active');
-            });
-        });
-        
-        // Activate the first tab by default
-        tabButtons[0].click();
-    }
 });
-
-// Generic form submission handler with fetch API
-function submitForm(formId, url, successCallback, errorCallback) {
-    const form = document.getElementById(formId);
-    if (!form) return;
-    
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const jsonData = {};
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
-        
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(jsonData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (successCallback) successCallback(data);
-        })
-        .catch(error => {
-            if (errorCallback) errorCallback(error);
-        });
-    });
-}
-
-// Show a notification
-function showNotification(message, type = 'info') {
-    const notifications = document.createElement('div');
-    notifications.className = 'flash-messages';
-    if (!document.querySelector('.flash-messages')) {
-        document.body.appendChild(notifications);
-    }
-    
-    const notification = document.createElement('div');
-    notification.className = `flash-message ${type}`;
-    notification.innerHTML = message + '<button class="close-flash"><i class="fas fa-times"></i></button>';
-    
-    document.querySelector('.flash-messages').appendChild(notification);
-    
-    // Add close event
-    notification.querySelector('.close-flash').addEventListener('click', function() {
-        notification.style.opacity = '0';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    });
-    
-    // Auto dismiss
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 5000);
-}

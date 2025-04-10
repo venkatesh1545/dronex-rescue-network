@@ -4,21 +4,21 @@
 {% block title %}DRONEX - Drone Rescue Network{% endblock %}
 
 {% block content %}
-<section class="hero" style="background-color: #f8f9fa; color: #1A1F2C; padding: 6rem 0;">
+<section class="hero">
     <div class="container">
         <div style="max-width: 700px;">
-            <div class="badge" style="display: inline-block; background-color: rgba(124, 58, 237, 0.1); color: #7E69AB; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 500; font-size: 0.875rem; margin-bottom: 1rem;">
+            <div class="badge">
                 <i class="fas fa-triangle-exclamation"></i>
                 <span>Disaster Response Network</span>
             </div>
             <h1 style="font-size: 4rem; margin-bottom: 1.5rem; color: #1A1F2C; font-weight: bold;">Saving Lives with <span style="color: #33C3F0;">Drone<span style="color: #f97316;">X</span></span></h1>
             <p style="font-size: 1.25rem; margin-bottom: 2rem; color: #6c757d; max-width: 600px;">Advanced drone technology and AI to monitor, classify, and respond to disasters in real-time. Connecting people, emergency services, and data when it matters most.</p>
-            <div class="flex gap-4" style="display: flex; gap: 1rem;">
-                <a href="/signup" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #33C3F0; border: none; color: white; text-decoration: none; border-radius: 0.375rem; display: inline-flex; align-items: center;">
+            <div style="display: flex; gap: 1rem;">
+                <a href="/signup" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; display: inline-flex; align-items: center;">
                     Get Started
                     <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
                 </a>
-                <a href="/alerts" class="btn btn-outline" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: transparent; border: 1px solid #e2e8f0; color: #1A1F2C; text-decoration: none; border-radius: 0.375rem; display: inline-flex; align-items: center;">
+                <a href="/alerts" class="btn btn-outline" style="padding: 0.75rem 1.5rem; font-size: 1rem; display: inline-flex; align-items: center;">
                     View Live Alerts
                 </a>
             </div>
@@ -28,7 +28,7 @@
 
 <section class="py-12">
     <div class="container">
-        <div class="card" style="position: relative; float: right; width: 40%; max-width: 450px; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); margin-left: 2rem; margin-bottom: 2rem; background-color: white; border: 1px solid #e2e8f0;">
+        <div class="card" style="position: relative; float: right; width: 40%; max-width: 450px; margin-left: 2rem; margin-bottom: 2rem;">
             <div style="padding: 1.5rem;">
                 <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: #1A1F2C;">Recent Alerts</h3>
                 
@@ -90,7 +90,7 @@
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                 <div style="display: flex; gap: 1rem; align-items: start;">
                     <div style="width: 3rem; height: 3rem; background: linear-gradient(to right, #9b87f5, #33C3F0); border-radius: 9999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <i class="fas fa-drone-alt" style="font-size: 1.25rem; color: white;"></i>
+                        <i class="fas fa-drone" style="font-size: 1.25rem; color: white;"></i>
                     </div>
                     <div>
                         <h3 style="font-size: 1.25rem; color: #1A1F2C; margin-bottom: 0.5rem;">Aerial Surveillance</h3>
@@ -122,11 +122,11 @@
     </div>
 </section>
 
-<section class="py-12 bg-gray-50" style="background-color: #f8f9fa;">
+<section class="py-12" style="background-color: #f8f9fa;">
     <div class="container">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center" style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
             <div style="flex: 1; min-width: 300px;">
-                <div style="display: inline-block; background-color: rgba(124, 58, 237, 0.1); color: #7E69AB; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 500; font-size: 0.875rem; margin-bottom: 1rem;">
+                <div class="badge">
                     <i class="fas fa-triangle-exclamation"></i>
                     <span>Emergency Response</span>
                 </div>
@@ -157,7 +157,7 @@
                     </li>
                 </ul>
                 
-                <a href="/alerts" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #33C3F0; border: none; color: white; text-decoration: none; border-radius: 0.375rem; display: inline-flex; align-items: center;">
+                <a href="/alerts" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; display: inline-flex; align-items: center;">
                     View Current Alerts
                 </a>
             </div>
@@ -173,15 +173,15 @@
 
 <section class="py-12">
     <div class="container">
-        <div class="card" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 2rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); border-radius: 0.5rem; background-color: white; border: 1px solid #e2e8f0;">
+        <div class="card" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 2rem;">
             <h2 style="font-size: 2rem; margin-bottom: 1rem; color: #1A1F2C;">Be Prepared for Emergencies</h2>
             <p style="max-width: 600px; margin: 1rem auto 2rem; color: #6c757d;">Download our safety guidelines and emergency checklists to help you and your family prepare for potential disasters.</p>
-            <div class="flex gap-4 justify-center" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/safety" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: #33C3F0; border: none; color: white; text-decoration: none; border-radius: 0.375rem; display: inline-flex; align-items: center;">
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/safety" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; display: inline-flex; align-items: center;">
                     <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>
                     View Safety Guidelines
                 </a>
-                <a href="/signup" class="btn btn-outline" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: transparent; border: 1px solid #e2e8f0; color: #1A1F2C; text-decoration: none; border-radius: 0.375rem; display: inline-flex; align-items: center;">
+                <a href="/signup" class="btn btn-outline" style="padding: 0.75rem 1.5rem; font-size: 1rem; display: inline-flex; align-items: center;">
                     <i class="fas fa-user" style="margin-right: 0.5rem;"></i>
                     Create Account
                 </a>

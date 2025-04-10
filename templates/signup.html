@@ -11,12 +11,12 @@
                 <div style="display: inline-flex; justify-content: center; align-items: center; width: 3rem; height: 3rem; background-color: var(--primary); color: white; border-radius: 9999px; margin-bottom: 1rem;">
                     <i class="fas fa-user-plus"></i>
                 </div>
-                <h1 style="text-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">Create your account</h1>
+                <h1 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">Create your account</h1>
                 <p style="color: var(--text-light);">Join DRONEX for real-time disaster alerts and safety information</p>
             </div>
             
             <form method="POST" action="{{ url_for('signup') }}">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                     <div class="form-group">
                         <label for="first-name" class="form-label">First Name</label>
                         <input type="text" id="first-name" name="first_name" class="form-input" required>
