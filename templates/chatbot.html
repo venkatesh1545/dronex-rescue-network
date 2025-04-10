@@ -1,0 +1,103 @@
+
+{% extends "base.html" %}
+
+{% block title %}Live Emergency Chat - DRONEX{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="container py-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 text-primary rounded-full mb-4">
+                    <i class="fas fa-comment-dots text-xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold mb-2">Emergency Live Chat</h1>
+                <p class="text-gray-600 max-w-lg mx-auto">
+                    Connect with emergency responders and get immediate assistance in disaster situations
+                </p>
+            </div>
+            
+            <div class="card chat-card">
+                <div class="card-header chat-header">
+                    <div class="flex items-center gap-3">
+                        <div class="online-indicator">
+                            <span class="ping"></span>
+                        </div>
+                        <div>
+                            <h2 class="card-title">Emergency Support</h2>
+                            <p class="text-sm text-gray-500">Online • Typically replies instantly</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message system">
+                        <div class="message-content">
+                            <p>Welcome to DRONEX Emergency Chat. This service is for disaster-related emergencies only.</p>
+                            <p><strong>If you're experiencing a life-threatening emergency, please call 911 immediately.</strong></p>
+                        </div>
+                        <div class="message-time">System • Now</div>
+                    </div>
+                    
+                    <div class="message bot">
+                        <div class="message-avatar">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm DRONEX Emergency Assistant. How can I help you today?</p>
+                            <p>You can ask me about:</p>
+                            <ul>
+                                <li>Current disaster situations</li>
+                                <li>Evacuation routes</li>
+                                <li>Safety procedures</li>
+                                <li>Emergency shelter locations</li>
+                            </ul>
+                        </div>
+                        <div class="message-time">Support • Just now</div>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <form id="chat-form">
+                        <div class="flex items-center gap-2">
+                            <input 
+                                type="text" 
+                                id="message-input" 
+                                placeholder="Type your message here..." 
+                                class="form-input flex-grow"
+                                required
+                            >
+                            <button type="submit" class="chat-send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quick-responses">
+                            <button type="button" class="quick-response-btn" data-message="Where is the nearest shelter?">Nearest shelter?</button>
+                            <button type="button" class="quick-response-btn" data-message="What should I do during a flood?">Flood safety?</button>
+                            <button type="button" class="quick-response-btn" data-message="How do I report someone trapped?">Report trapped person</button>
+                            <button type="button" class="quick-response-btn" data-message="I need medical assistance">Need medical help</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6">
+                <p class="text-sm text-gray-500 mb-2">This chat service is for demonstration purposes. In a real emergency, please call emergency services.</p>
+                <a href="/safety" class="btn btn-outline">
+                    <i class="fas fa-shield-alt mr-2"></i>
+                    View Safety Guidelines
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

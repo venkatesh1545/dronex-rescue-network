@@ -1,0 +1,404 @@
+
+{% extends "base.html" %}
+
+{% block title %}User Dashboard - DRONEX{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-8">
+    <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left Sidebar -->
+            <div class="md:col-span-1">
+                <div class="card mb-6">
+                    <div class="card-content">
+                        <div class="text-center mb-4">
+                            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary text-white mb-3">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold">{{ session.get('user', 'User') }}</h2>
+                            <p class="text-sm text-gray-500">Community Member</p>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4">
+                            <ul class="space-y-2">
+                                <li>
+                                    <a href="#alerts" class="flex items-center py-2 px-3 rounded-md hover:bg-gray-100">
+                                        <i class="fas fa-bell w-6"></i>
+                                        <span>Active Alerts</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#safety" class="flex items-center py-2 px-3 rounded-md hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-6"></i>
+                                        <span>Safety Information</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#shelters" class="flex items-center py-2 px-3 rounded-md hover:bg-gray-100">
+                                        <i class="fas fa-home w-6"></i>
+                                        <span>Nearby Shelters</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#assistance" class="flex items-center py-2 px-3 rounded-md hover:bg-gray-100">
+                                        <i class="fas fa-hands-helping w-6"></i>
+                                        <span>Request Assistance</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/profile" class="flex items-center py-2 px-3 rounded-md hover:bg-gray-100">
+                                        <i class="fas fa-user-cog w-6"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Emergency Contacts</h3>
+                    </div>
+                    <div class="card-content">
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <div class="flex-shrink-0 p-2 bg-red-100 text-red-600 rounded-md">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Emergency Services</p>
+                                    <p class="text-sm text-gray-600">911</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="flex-shrink-0 p-2 bg-blue-100 text-blue-600 rounded-md">
+                                    <i class="fas fa-hospital"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">Medical Helpline</p>
+                                    <p class="text-sm text-gray-600">1-800-555-HELP</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="flex-shrink-0 p-2 bg-purple-100 text-purple-600 rounded-md">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium">DRONEX Support</p>
+                                    <p class="text-sm text-gray-600">1-888-DRONEX1</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="md:col-span-2">
+                <!-- Alert Section -->
+                <div id="alerts" class="card mb-6">
+                    <div class="card-header">
+                        <div class="flex items-center justify-between">
+                            <h2 class="card-title">Active Alerts</h2>
+                            <span class="bg-red-100 text-red-600 text-xs font-medium px-2.5 py-0.5 rounded-full">LIVE</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div id="active-alerts-container" class="space-y-4">
+                            <div class="alert-loading text-center py-4">
+                                <p>Loading alerts...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Safety Information -->
+                <div id="safety" class="card mb-6">
+                    <div class="card-header">
+                        <h2 class="card-title">Safety Information</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <a href="/safety" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="p-2 bg-blue-100 text-blue-600 rounded-md">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Safety Guidelines</h3>
+                                        <p class="text-sm text-gray-600">Detailed instructions for different disasters</p>
+                                    </div>
+                                </div>
+                            </a>
+                            
+                            <a href="/alerts" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="p-2 bg-amber-100 text-amber-600 rounded-md">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Evacuation Routes</h3>
+                                        <p class="text-sm text-gray-600">Find the safest way to evacuate</p>
+                                    </div>
+                                </div>
+                            </a>
+                            
+                            <a href="/chatbot" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="p-2 bg-green-100 text-green-600 rounded-md">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">Emergency Chat</h3>
+                                        <p class="text-sm text-gray-600">Get immediate assistance via chat</p>
+                                    </div>
+                                </div>
+                            </a>
+                            
+                            <a href="#" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50">
+                                <div class="flex items-center gap-3">
+                                    <div class="p-2 bg-purple-100 text-purple-600 rounded-md">
+                                        <i class="fas fa-first-aid"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium">First Aid Tips</h3>
+                                        <p class="text-sm text-gray-600">Basic medical emergency guidance</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nearby Shelters -->
+                <div id="shelters" class="card mb-6">
+                    <div class="card-header">
+                        <h2 class="card-title">Nearby Safety Shelters</h2>
+                    </div>
+                    <div class="card-content">
+                        <div id="safety-shelters-container" class="space-y-4">
+                            <div class="shelters-loading text-center py-4">
+                                <p>Loading nearby shelters...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Request Assistance -->
+                <div id="assistance" class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Request Assistance</h2>
+                        <p class="card-description">Submit a request for help or resources</p>
+                    </div>
+                    <div class="card-content">
+                        <form id="assistance-form">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div class="form-group">
+                                    <label for="assistance-type" class="form-label">Type of Assistance</label>
+                                    <select id="assistance-type" name="type" class="form-select" required>
+                                        <option value="">Select assistance type</option>
+                                        <option value="evacuation">Evacuation</option>
+                                        <option value="medical">Medical</option>
+                                        <option value="shelter">Shelter</option>
+                                        <option value="food">Food & Water</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="assistance-urgency" class="form-label">Urgency Level</label>
+                                    <select id="assistance-urgency" name="urgency" class="form-select" required>
+                                        <option value="">Select urgency level</option>
+                                        <option value="low">Low - Within 24 hours</option>
+                                        <option value="medium">Medium - Within 6 hours</option>
+                                        <option value="high">High - As soon as possible</option>
+                                        <option value="critical">Critical - Immediate (life-threatening)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group mb-4">
+                                <label for="assistance-location" class="form-label">Your Location</label>
+                                <input type="text" id="assistance-location" name="location" class="form-input" placeholder="Address or area description" required>
+                            </div>
+                            
+                            <div class="form-group mb-4">
+                                <label for="assistance-details" class="form-label">Details</label>
+                                <textarea id="assistance-details" name="details" class="form-textarea" placeholder="Please describe your situation and specific needs..." required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="assistance-contact" class="form-label">Contact Information</label>
+                                <input type="text" id="assistance-contact" name="contact" class="form-input" placeholder="Phone number to reach you" required>
+                            </div>
+                            
+                            <div class="form-group form-checkbox mt-4">
+                                <input type="checkbox" id="assistance-consent" name="consent" required>
+                                <label for="assistance-consent">I understand that this information will be shared with emergency responders</label>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Submit Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load active alerts
+    loadActiveAlerts();
+    
+    // Load safety shelters
+    loadSafetyShelters();
+    
+    // Setup assistance form
+    setupAssistanceForm();
+});
+
+function loadActiveAlerts() {
+    const alertsContainer = document.getElementById('active-alerts-container');
+    
+    fetch('/api/alerts')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                alertsContainer.innerHTML = `
+                    <div class="text-center py-4">
+                        <p class="text-gray-500">No active alerts at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            alertsContainer.innerHTML = '';
+            data.forEach(alert => {
+                const alertEl = document.createElement('div');
+                alertEl.className = 'p-4 border border-red-200 bg-red-50 rounded-md';
+                alertEl.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <div class="p-2 bg-red-100 text-red-600 rounded-md flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-semibold">${alert.title}</h3>
+                                <span class="text-xs text-gray-500">${formatDate(alert.created_at)}</span>
+                            </div>
+                            <p class="text-sm text-gray-700 mt-1">${alert.description}</p>
+                            ${alert.locations && alert.locations.length > 0 ? 
+                                `<div class="mt-2">
+                                    <span class="text-xs font-medium">Affected Areas:</span>
+                                    <span class="text-xs text-gray-600">${alert.locations.join(', ')}</span>
+                                </div>` : ''
+                            }
+                        </div>
+                    </div>
+                `;
+                alertsContainer.appendChild(alertEl);
+            });
+        })
+        .catch(error => {
+            alertsContainer.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-red-500">Error loading alerts. Please try again later.</p>
+                </div>
+            `;
+            console.error('Error loading alerts:', error);
+        });
+}
+
+function loadSafetyShelters() {
+    const sheltersContainer = document.getElementById('safety-shelters-container');
+    
+    fetch('/api/safety-locations')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                sheltersContainer.innerHTML = `
+                    <div class="text-center py-4">
+                        <p class="text-gray-500">No safety shelters registered in your area.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            sheltersContainer.innerHTML = '';
+            data.forEach(shelter => {
+                const occupancyPercentage = shelter.capacity > 0 
+                    ? Math.round((shelter.current_occupancy / shelter.capacity) * 100)
+                    : 0;
+                    
+                const occupancyColor = occupancyPercentage < 50 ? 'bg-green-500' : 
+                                      occupancyPercentage < 75 ? 'bg-amber-500' : 'bg-red-500';
+                
+                const shelterEl = document.createElement('div');
+                shelterEl.className = 'p-4 border border-gray-200 rounded-md';
+                shelterEl.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <div class="p-2 bg-green-100 text-green-600 rounded-md flex-shrink-0">
+                            <i class="fas fa-house-damage"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-semibold">${shelter.name}</h3>
+                            <p class="text-sm text-gray-600">${shelter.address}</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <span class="text-xs font-medium">Occupancy:</span>
+                                <div class="flex-grow bg-gray-200 rounded-full h-2.5">
+                                    <div class="${occupancyColor} h-2.5 rounded-full" style="width: ${occupancyPercentage}%"></div>
+                                </div>
+                                <span class="text-xs">${shelter.current_occupancy}/${shelter.capacity}</span>
+                            </div>
+                            ${shelter.resources && shelter.resources.length > 0 ? 
+                                `<div class="mt-2 flex flex-wrap gap-1">
+                                    ${shelter.resources.map(resource => 
+                                        `<span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded">${resource}</span>`
+                                    ).join('')}
+                                </div>` : ''
+                            }
+                        </div>
+                    </div>
+                `;
+                sheltersContainer.appendChild(shelterEl);
+            });
+        })
+        .catch(error => {
+            sheltersContainer.innerHTML = `
+                <div class="text-center py-4">
+                    <p class="text-red-500">Error loading shelters. Please try again later.</p>
+                </div>
+            `;
+            console.error('Error loading shelters:', error);
+        });
+}
+
+function setupAssistanceForm() {
+    const form = document.getElementById('assistance-form');
+    if (!form) return;
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // In a real application, this would submit to the server
+        showNotification('Your assistance request has been submitted. Emergency services have been notified.', 'success');
+        form.reset();
+    });
+}
+
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleString();
+}
+</script>
+{% endblock %}

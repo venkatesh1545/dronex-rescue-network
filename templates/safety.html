@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block title %}Safety Guidelines - DRONEX{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-12">
+    <div class="container">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Safety First</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Disaster Safety Guidelines</h1>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Detailed instructions to stay safe before, during, and after different types of disasters. Being prepared can save lives.
+                </p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab active" data-tab="flood">
+                    <i class="fas fa-water"></i>
+                    <span>Flood</span>
+                </button>
+                <button class="tab" data-tab="earthquake">
+                    <i class="fas fa-house-damage"></i>
+                    <span>Earthquake</span>
+                </button>
+                <button class="tab" data-tab="fire">
+                    <i class="fas fa-fire"></i>
+                    <span>Fire</span>
+                </button>
+                <button class="tab" data-tab="hurricane">
+                    <i class="fas fa-wind"></i>
+                    <span>Hurricane</span>
+                </button>
+                <button class="tab" data-tab="tsunami">
+                    <i class="fas fa-water"></i>
+                    <span>Tsunami</span>
+                </button>
+            </div>
+            
+            <!-- Flood Tab -->
+            <div id="flood" class="tab-content active">
+                <div class="card">
+                    <div class="card-header card-header-gradient">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-white rounded-lg text-primary">
+                                <i class="fas fa-water"></i>
+                            </div>
+                            <div>
+                                <h2 class="card-title">Flood Safety</h2>
+                                <p class="card-description">
+                                    Critical safety steps to follow during a flood disaster
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Left column: Immediate Steps -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-triangle-exclamation text-red-500"></i>
+                                    Immediate Steps to Take
+                                </h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            1
+                                        </div>
+                                        <span>Move to higher ground immediately and avoid flood waters</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            2
+                                        </div>
+                                        <span>Do not walk, swim, or drive through flood waters</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            3
+                                        </div>
+                                        <span>Stay off bridges over fast-moving water</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            4
+                                        </div>
+                                        <span>Evacuate if told to do so by authorities</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            5
+                                        </div>
+                                        <span>Move to the highest level of a building if trapped</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Right column: Essential Items -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    Essential Emergency Items
+                                </h3>
+                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Water (1 gallon per person per day)</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Non-perishable food</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Battery-powered radio</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Flashlight</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">First aid kit</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Whistle to signal for help</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-amber-500"></i>
+                                    After the Flood
+                                </h3>
+                                <div class="space-y-2">
+                                    <div class="border border-gray-200 rounded-md">
+                                        <button class="w-full text-left p-3 flex justify-between items-center after-flood-toggle">
+                                            <span class="text-sm font-medium">Return home only when authorities say it is safe</span>
+                                            <i class="fas fa-chevron-down text-gray-400"></i>
+                                        </button>
+                                        <div class="p-3 border-t border-gray-200 after-flood-content hidden">
+                                            Listen to local officials for information and instructions. Return home only when authorities say it is safe.
+                                        </div>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-md">
+                                        <button class="w-full text-left p-3 flex justify-between items-center after-flood-toggle">
+                                            <span class="text-sm font-medium">Be aware of areas where floodwaters have receded</span>
+                                            <i class="fas fa-chevron-down text-gray-400"></i>
+                                        </button>
+                                        <div class="p-3 border-t border-gray-200 after-flood-content hidden">
+                                            Roads may have weakened and could collapse under the weight of a car. Be cautious when entering buildings; there may be hidden damage.
+                                        </div>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-md">
+                                        <button class="w-full text-left p-3 flex justify-between items-center after-flood-toggle">
+                                            <span class="text-sm font-medium">Avoid floodwaters and standing water</span>
+                                            <i class="fas fa-chevron-down text-gray-400"></i>
+                                        </button>
+                                        <div class="p-3 border-t border-gray-200 after-flood-content hidden">
+                                            Floodwater can contain dangerous debris, be contaminated with sewage, or be electrically charged from underground power lines.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-50 border border-amber-100 rounded-lg p-6 mt-6">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-amber-100 text-amber-600 rounded-lg">
+                            <i class="fas fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-amber-800 mb-2">Important Reminder</h3>
+                            <p class="text-amber-800">
+                                Every disaster situation is unique. Always follow official instructions from local emergency management agencies. These guidelines are general and may need to be adapted to your specific situation.
+                            </p>
+                            <div class="mt-4 flex flex-col sm:flex-row gap-3">
+                                <button class="btn btn-outline border-amber-200 text-amber-800 hover:bg-amber-100">
+                                    Download as PDF
+                                </button>
+                                <a href="/alerts" class="btn bg-amber-600 hover:bg-amber-700 text-white">
+                                    View Current Alerts
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Earthquake Tab -->
+            <div id="earthquake" class="tab-content">
+                <div class="card">
+                    <div class="card-header card-header-gradient">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-white rounded-lg text-primary">
+                                <i class="fas fa-house-damage"></i>
+                            </div>
+                            <div>
+                                <h2 class="card-title">Earthquake Safety</h2>
+                                <p class="card-description">
+                                    Critical safety steps to follow during an earthquake
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Left column: Immediate Steps -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-triangle-exclamation text-red-500"></i>
+                                    Immediate Steps to Take
+                                </h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            1
+                                        </div>
+                                        <span>DROP to the ground before the earthquake drops you</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            2
+                                        </div>
+                                        <span>COVER your head and neck with your arms; crawl under sturdy furniture if nearby</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            3
+                                        </div>
+                                        <span>HOLD ON to your shelter until the shaking stops</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            4
+                                        </div>
+                                        <span>If indoors, stay away from glass, windows, outside doors and walls</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg">
+                                        <div class="flex-shrink-0 bg-primary/10 text-primary h-6 w-6 rounded-full flex items-center justify-center">
+                                            5
+                                        </div>
+                                        <span>If outdoors, stay in the open until the shaking stops</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Right column: Essential Items -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                    Essential Emergency Items
+                                </h3>
+                                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Emergency water supply</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Non-perishable food</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Flashlight and batteries</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">First aid kit</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Whistle for signaling</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-2 w-2 rounded-full bg-primary"></div>
+                                            <span class="text-gray-700">Dust mask</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-amber-500"></i>
+                                    After the Earthquake
+                                </h3>
+                                <div class="space-y-2">
+                                    <div class="border border-gray-200 rounded-md">
+                                        <button class="w-full text-left p-3 flex justify-between items-center after-flood-toggle">
+                                            <span class="text-sm font-medium">Check yourself and others for injuries</span>
+                                            <i class="fas fa-chevron-down text-gray-400"></i>
+                                        </button>
+                                        <div class="p-3 border-t border-gray-200 after-flood-content hidden">
+                                            Provide first aid for anyone who needs it. Call for help if necessary.
+                                        </div>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-md">
+                                        <button class="w-full text-left p-3 flex justify-between items-center after-flood-toggle">
+                                            <span class="text-sm font-medium">Check for gas leaks, fire hazards, and structural damage</span>
+                                            <i class="fas fa-chevron-down text-gray-400"></i>
+                                        </button>
+                                        <div class="p-3 border-t border-gray-200 after-flood-content hidden">
+                                            If you smell gas, turn off the main gas valve, open windows, and leave the building. Report gas leaks to the authorities.
+                                        </div>
+                                    </div>
+                                    <div class="border border-gray-200 rounded-md">
+                                        <button class="w-full text-left p-3 flex justify-between items-center after-flood-toggle">
+                                            <span class="text-sm font-medium">Be prepared for aftershocks</span>
+                                            <i class="fas fa-chevron-down text-gray-400"></i>
+                                        </button>
+                                        <div class="p-3 border-t border-gray-200 after-flood-content hidden">
+                                            These secondary shockwaves are usually less violent than the main quake but can be strong enough to cause additional damage.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-amber-50 border border-amber-100 rounded-lg p-6 mt-6">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 bg-amber-100 text-amber-600 rounded-lg">
+                            <i class="fas fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-amber-800 mb-2">Important Reminder</h3>
+                            <p class="text-amber-800">
+                                Every disaster situation is unique. Always follow official instructions from local emergency management agencies. These guidelines are general and may need to be adapted to your specific situation.
+                            </p>
+                            <div class="mt-4 flex flex-col sm:flex-row gap-3">
+                                <button class="btn btn-outline border-amber-200 text-amber-800 hover:bg-amber-100">
+                                    Download as PDF
+                                </button>
+                                <a href="/alerts" class="btn bg-amber-600 hover:bg-amber-700 text-white">
+                                    View Current Alerts
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other disaster tabs would follow the same pattern -->
+            <div id="fire" class="tab-content">
+                <!-- Fire safety content would go here with the same structure -->
+                <div class="card">
+                    <div class="card-content text-center py-6">
+                        <i class="fas fa-fire text-red-500 text-4xl mb-4"></i>
+                        <h3 class="text-xl font-semibold">Fire Safety Guidelines</h3>
+                        <p class="text-gray-600 mt-2">Content for this section is being updated.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="hurricane" class="tab-content">
+                <!-- Hurricane safety content would go here with the same structure -->
+                <div class="card">
+                    <div class="card-content text-center py-6">
+                        <i class="fas fa-wind text-blue-500 text-4xl mb-4"></i>
+                        <h3 class="text-xl font-semibold">Hurricane Safety Guidelines</h3>
+                        <p class="text-gray-600 mt-2">Content for this section is being updated.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="tsunami" class="tab-content">
+                <!-- Tsunami safety content would go here with the same structure -->
+                <div class="card">
+                    <div class="card-content text-center py-6">
+                        <i class="fas fa-water text-blue-500 text-4xl mb-4"></i>
+                        <h3 class="text-xl font-semibold">Tsunami Safety Guidelines</h3>
+                        <p class="text-gray-600 mt-2">Content for this section is being updated.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add toggle functionality for "After the Disaster" sections
+    const toggleButtons = document.querySelectorAll('.after-flood-toggle');
+    toggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const icon = this.querySelector('i');
+            
+            content.classList.toggle('hidden');
+            
+            if (icon.classList.contains('fa-chevron-down')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

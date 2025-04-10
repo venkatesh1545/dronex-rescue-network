@@ -1,0 +1,180 @@
+
+{% extends "base.html" %}
+
+{% block title %}DRONEX - Drone Rescue Network{% endblock %}
+
+{% block content %}
+<section class="hero" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center; color: white; padding: 6rem 0;">
+    <div class="container">
+        <div style="max-width: 700px;">
+            <h1 style="font-size: 3rem; margin-bottom: 1.5rem;">Real-Time Drone Emergency Response</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 2rem;">DRONEX provides critical disaster information, rescue coordination, and safety alerts to save lives when every second counts.</p>
+            <div class="flex gap-4">
+                <a href="/alerts" class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem;">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    View Active Alerts
+                </a>
+                <a href="/safety" class="btn btn-outline" style="padding: 0.75rem 1.5rem; font-size: 1rem; background-color: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); color: white;">
+                    <i class="fas fa-shield"></i>
+                    Safety Guidelines
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-12">
+    <div class="container">
+        <div class="text-center mb-8">
+            <h2>How DRONEX Helps During Disasters</h2>
+            <p style="max-width: 700px; margin: 0 auto; color: var(--text-light);">Our integrated drone network provides real-time information and critical communication channels during emergency situations.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card">
+                <div style="padding: 2rem; text-align: center;">
+                    <div style="width: 4rem; height: 4rem; background: linear-gradient(to right, var(--primary), var(--secondary)); border-radius: 9999px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="fas fa-drone-alt" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem;">Aerial Surveillance</h3>
+                    <p style="color: var(--text-light);">Our drones provide real-time video feeds of disaster areas, helping emergency teams assess damage and locate survivors.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div style="padding: 2rem; text-align: center;">
+                    <div style="width: 4rem; height: 4rem; background: linear-gradient(to right, var(--primary), var(--secondary)); border-radius: 9999px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="fas fa-map-marked-alt" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem;">Emergency Mapping</h3>
+                    <p style="color: var(--text-light);">Create detailed maps of affected areas, identifying safe evacuation routes and dangerous zones to avoid.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div style="padding: 2rem; text-align: center;">
+                    <div style="width: 4rem; height: 4rem; background: linear-gradient(to right, var(--primary), var(--secondary)); border-radius: 9999px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="fas fa-wifi" style="font-size: 1.5rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem;">Communication Network</h3>
+                    <p style="color: var(--text-light);">Establish temporary communication networks in areas where infrastructure has been damaged or destroyed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-12 bg-gray-50">
+    <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <div style="display: inline-block; background-color: rgba(124, 58, 237, 0.1); color: var(--primary); padding: 0.5rem 1rem; border-radius: 9999px; font-weight: 500; font-size: 0.875rem; margin-bottom: 1rem;">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <span>Emergency Response</span>
+                </div>
+                <h2>Fast, Reliable Disaster Information</h2>
+                <p>When disasters strike, accurate and timely information saves lives. DRONEX provides critical updates about:</p>
+                
+                <ul style="list-style: none; margin: 1.5rem 0;">
+                    <li style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="color: var(--primary); font-size: 1.25rem;"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>Evacuation Routes</strong>
+                            <p style="color: var(--text-light);">Identify clear paths to safety, updated in real-time</p>
+                        </div>
+                    </li>
+                    <li style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="color: var(--primary); font-size: 1.25rem;"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>Safe Zones</strong>
+                            <p style="color: var(--text-light);">Locations of emergency shelters and medical facilities</p>
+                        </div>
+                    </li>
+                    <li style="display: flex; gap: 0.75rem;">
+                        <div style="color: var(--primary); font-size: 1.25rem;"><i class="fas fa-check-circle"></i></div>
+                        <div>
+                            <strong>Resource Distribution</strong>
+                            <p style="color: var(--text-light);">Where to find water, food, and medical supplies</p>
+                        </div>
+                    </li>
+                </ul>
+                
+                <a href="/alerts" class="btn btn-primary">View Current Alerts</a>
+            </div>
+            
+            <div style="border-radius: 0.5rem; overflow: hidden; box-shadow: var(--shadow);">
+                <img src="https://images.unsplash.com/photo-1603398089486-12eb7eeaff7e?auto=format&fit=crop&w=800&q=80" alt="Drone in action" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-12">
+    <div class="container">
+        <div class="text-center mb-8">
+            <h2>Latest Disaster Updates</h2>
+            <p style="max-width: 700px; margin: 0 auto; color: var(--text-light);">Stay informed about recent incidents and ongoing recovery efforts.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1618173745201-8e3bf8978acc?auto=format&fit=crop&w=800&q=80" alt="Flooding" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1.5rem;">
+                    <span style="display: inline-block; background-color: rgba(249, 115, 22, 0.1); color: #f97316; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; margin-bottom: 0.5rem;">Flooding</span>
+                    <h3 style="font-size: 1.25rem;">Coastal Flooding Alert</h3>
+                    <p style="color: var(--text-light);">Heavy rainfall has caused significant flooding in coastal areas. Emergency evacuation orders in effect.</p>
+                    <a href="/alerts" style="display: inline-flex; align-items: center; margin-top: 1rem; font-weight: 500; color: var(--primary);">
+                        Read More
+                        <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1556091065-7c1e73c3d3e8?auto=format&fit=crop&w=800&q=80" alt="Wildfire" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1.5rem;">
+                    <span style="display: inline-block; background-color: rgba(220, 38, 38, 0.1); color: #dc2626; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; margin-bottom: 0.5rem;">Wildfire</span>
+                    <h3 style="font-size: 1.25rem;">Mountain Ridge Fire</h3>
+                    <p style="color: var(--text-light);">Wildfire containment at 35%. Drones are monitoring fire boundaries and assisting evacuation efforts.</p>
+                    <a href="/alerts" style="display: inline-flex; align-items: center; margin-top: 1rem; font-weight: 500; color: var(--primary);">
+                        Read More
+                        <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1584738766473-61c083514bf4?auto=format&fit=crop&w=800&q=80" alt="Earthquake" style="width: 100%; height: 200px; object-fit: cover;">
+                <div style="padding: 1.5rem;">
+                    <span style="display: inline-block; background-color: rgba(14, 165, 233, 0.1); color: #0ea5e9; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; margin-bottom: 0.5rem;">Earthquake</span>
+                    <h3 style="font-size: 1.25rem;">Valley Region Aftermath</h3>
+                    <p style="color: var(--text-light);">Recovery efforts continue after 6.2 magnitude earthquake. Drone surveys helping locate survivors.</p>
+                    <a href="/alerts" style="display: inline-flex; align-items: center; margin-top: 1rem; font-weight: 500; color: var(--primary);">
+                        Read More
+                        <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-12 bg-gray-50">
+    <div class="container">
+        <div class="card" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 2rem;">
+            <h2>Be Prepared for Emergencies</h2>
+            <p style="max-width: 600px; margin: 1rem auto 2rem; color: var(--text-light);">Download our safety guidelines and emergency checklists to help you and your family prepare for potential disasters.</p>
+            <div class="flex gap-4 justify-center">
+                <a href="/safety" class="btn btn-primary">
+                    <i class="fas fa-shield-alt"></i>
+                    View Safety Guidelines
+                </a>
+                <a href="/login" class="btn btn-outline">
+                    <i class="fas fa-user"></i>
+                    Create Account
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

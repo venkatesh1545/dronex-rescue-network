@@ -1,0 +1,523 @@
+
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - DRONEX{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <div class="container py-8">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <p>Manage disaster response operations and emergency alerts</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="alerts">Alert Management</button>
+            <button class="tab" data-tab="rescues">Rescue Operations</button>
+            <button class="tab" data-tab="victims">Victim Registry</button>
+            <button class="tab" data-tab="safety">Safety Locations</button>
+        </div>
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="stat-card bg-purple-gradient">
+                    <div class="stat-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="active-alerts-count">0</div>
+                        <div class="stat-label">Active Alerts</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-blue-gradient">
+                    <div class="stat-icon"><i class="fas fa-people-carry"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="rescue-count">0</div>
+                        <div class="stat-label">People Rescued</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-orange-gradient">
+                    <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="assistance-count">0</div>
+                        <div class="stat-label">Assistance Requests</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card bg-green-gradient">
+                    <div class="stat-icon"><i class="fas fa-house-damage"></i></div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="shelter-count">0</div>
+                        <div class="stat-label">Active Shelters</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Alerts</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-container">
+                            <table id="recent-alerts-table">
+                                <thead>
+                                    <tr>
+                                        <th>Alert</th>
+                                        <th>Type</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" class="text-center">No alerts found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-outline" id="view-all-alerts">View All Alerts</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Rescue Operations</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="table-container">
+                            <table id="recent-rescues-table">
+                                <thead>
+                                    <tr>
+                                        <th>Location</th>
+                                        <th>People</th>
+                                        <th>Status</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" class="text-center">No rescue operations found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-outline" id="view-all-rescues">View All Rescues</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alert Management Tab -->
+        <div id="alerts" class="tab-content">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h2 class="card-title">Send New Alert</h2>
+                    <p class="card-description">Create emergency notifications to be sent to affected areas</p>
+                </div>
+                <div class="card-content">
+                    <form id="alert-form">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="alert-title" class="form-label">Alert Title</label>
+                                <input type="text" id="alert-title" name="title" class="form-input" placeholder="e.g. Flash Flood Warning" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="alert-type" class="form-label">Alert Type</label>
+                                <select id="alert-type" name="type" class="form-select" required>
+                                    <option value="">Select alert type</option>
+                                    <option value="flood">Flood</option>
+                                    <option value="earthquake">Earthquake</option>
+                                    <option value="fire">Fire</option>
+                                    <option value="hurricane">Hurricane</option>
+                                    <option value="tsunami">Tsunami</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="alert-description" class="form-label">Alert Description</label>
+                            <textarea id="alert-description" name="description" class="form-textarea" placeholder="Provide detailed information about the emergency..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Affected Locations</label>
+                            <div class="location-checkboxes">
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="loc-downtown" name="locations[]" value="Downtown">
+                                    <label for="loc-downtown">Downtown</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="loc-north" name="locations[]" value="North District">
+                                    <label for="loc-north">North District</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="loc-east" name="locations[]" value="East Side">
+                                    <label for="loc-east">East Side</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="loc-south" name="locations[]" value="South Region">
+                                    <label for="loc-south">South Region</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="loc-west" name="locations[]" value="West Hills">
+                                    <label for="loc-west">West Hills</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="loc-coastal" name="locations[]" value="Coastal Area">
+                                    <label for="loc-coastal">Coastal Area</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Alert
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Active Alerts</h2>
+                    <p class="card-description">Manage currently active emergency notifications</p>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table id="active-alerts-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Locations</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="text-center">No active alerts found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rescue Operations Tab -->
+        <div id="rescues" class="tab-content">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h2 class="card-title">Record Rescue Operation</h2>
+                    <p class="card-description">Log details of rescue missions and people saved</p>
+                </div>
+                <div class="card-content">
+                    <form id="rescue-form">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label for="rescue-location" class="form-label">Location</label>
+                                <input type="text" id="rescue-location" name="location" class="form-input" placeholder="e.g. River Heights Area" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="rescue-people" class="form-label">Number of People</label>
+                                <input type="number" id="rescue-people" name="people_count" class="form-input" min="1" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="rescue-status" class="form-label">Status</label>
+                                <select id="rescue-status" name="status" class="form-select" required>
+                                    <option value="">Select status</option>
+                                    <option value="in-progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="planned">Planned</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rescue-notes" class="form-label">Operation Notes</label>
+                            <textarea id="rescue-notes" name="notes" class="form-textarea" placeholder="Additional details about the rescue operation..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Record Rescue
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Rescue Operations</h2>
+                    <p class="card-description">History of recent and ongoing rescue operations</p>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table id="rescue-operations-table">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>People</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="text-center">No rescue operations recorded</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Victim Registry Tab -->
+        <div id="victims" class="tab-content">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h2 class="card-title">Register Disaster Victim</h2>
+                    <p class="card-description">Log information about people affected by disasters</p>
+                </div>
+                <div class="card-content">
+                    <form id="victim-form">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="victim-name" class="form-label">Full Name</label>
+                                <input type="text" id="victim-name" name="name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="victim-contact" class="form-label">Contact Information</label>
+                                <input type="text" id="victim-contact" name="contact" class="form-input" placeholder="Phone number or email">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="victim-location" class="form-label">Last Known Location</label>
+                                <input type="text" id="victim-location" name="location" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="victim-status" class="form-label">Status</label>
+                                <select id="victim-status" name="status" class="form-select" required>
+                                    <option value="">Select status</option>
+                                    <option value="safe">Safe</option>
+                                    <option value="missing">Missing</option>
+                                    <option value="injured">Injured</option>
+                                    <option value="rescued">Rescued</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Immediate Needs</label>
+                            <div class="needs-checkboxes">
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="need-shelter" name="needs[]" value="Shelter">
+                                    <label for="need-shelter">Shelter</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="need-food" name="needs[]" value="Food">
+                                    <label for="need-food">Food</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="need-water" name="needs[]" value="Water">
+                                    <label for="need-water">Water</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="need-medical" name="needs[]" value="Medical">
+                                    <label for="need-medical">Medical Attention</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="need-clothing" name="needs[]" value="Clothing">
+                                    <label for="need-clothing">Clothing</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="need-transport" name="needs[]" value="Transportation">
+                                    <label for="need-transport">Transportation</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Register Victim
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Victim Registry</h2>
+                    <p class="card-description">List of people affected by recent disasters</p>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table id="victims-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Contact</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Needs</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="text-center">No victims registered</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Safety Locations Tab -->
+        <div id="safety" class="tab-content">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h2 class="card-title">Add Safety Location</h2>
+                    <p class="card-description">Register emergency shelters and safe zones</p>
+                </div>
+                <div class="card-content">
+                    <form id="safety-location-form">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label for="location-name" class="form-label">Location Name</label>
+                                <input type="text" id="location-name" name="name" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location-address" class="form-label">Address</label>
+                                <input type="text" id="location-address" name="address" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location-capacity" class="form-label">Capacity</label>
+                                <input type="number" id="location-capacity" name="capacity" class="form-input" min="1" required>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="location-occupancy" class="form-label">Current Occupancy</label>
+                                <input type="number" id="location-occupancy" name="current_occupancy" class="form-input" min="0" value="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location-type" class="form-label">Location Type</label>
+                                <select id="location-type" name="location_type" class="form-select" required>
+                                    <option value="">Select type</option>
+                                    <option value="shelter">Emergency Shelter</option>
+                                    <option value="medical">Medical Facility</option>
+                                    <option value="supply">Supply Distribution</option>
+                                    <option value="evacuation">Evacuation Point</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Available Resources</label>
+                            <div class="resources-checkboxes">
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="resource-food" name="resources[]" value="Food">
+                                    <label for="resource-food">Food</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="resource-water" name="resources[]" value="Water">
+                                    <label for="resource-water">Water</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="resource-medical" name="resources[]" value="Medical Supplies">
+                                    <label for="resource-medical">Medical Supplies</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="resource-beds" name="resources[]" value="Beds">
+                                    <label for="resource-beds">Beds</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="resource-power" name="resources[]" value="Power">
+                                    <label for="resource-power">Power</label>
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="resource-communication" name="resources[]" value="Communication">
+                                    <label for="resource-communication">Communication</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i>
+                                Add Location
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Safety Locations</h2>
+                    <p class="card-description">Active shelters and safety zones</p>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table id="safety-locations-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Capacity</th>
+                                    <th>Occupancy</th>
+                                    <th>Resources</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="text-center">No safety locations registered</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

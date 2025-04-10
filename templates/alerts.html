@@ -1,0 +1,163 @@
+
+{% extends "base.html" %}
+
+{% block title %}Emergency Alerts - DRONEX{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-12">
+    <div class="container">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 text-red-600 rounded-full mb-4">
+                    <i class="fas fa-bell text-xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold mb-2">Emergency Alerts</h1>
+                <p class="text-gray-600 max-w-lg mx-auto">
+                    Real-time information about active disasters and emergency situations in your area
+                </p>
+            </div>
+            
+            <div id="active-alerts-container" class="space-y-6 mb-8">
+                <div class="alert-loading text-center py-8">
+                    <p>Loading active alerts...</p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-sm text-gray-500 mb-2">Want to receive alerts on your phone?</p>
+                <a href="/signup" class="btn btn-primary">
+                    <i class="fas fa-mobile-alt mr-2"></i>
+                    Sign Up for Alerts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadActiveAlerts();
+});
+
+function loadActiveAlerts() {
+    const alertsContainer = document.getElementById('active-alerts-container');
+    
+    fetch('/api/alerts')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length === 0) {
+                alertsContainer.innerHTML = `
+                    <div class="card">
+                        <div class="card-content text-center py-12">
+                            <div class="inline-flex items-center justify-center w-12 h-12 bg-gray-100 text-gray-400 rounded-full mb-4">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <h2 class="text-xl font-semibold mb-2">No Active Alerts</h2>
+                            <p class="text-gray-500">There are currently no emergency alerts for your area.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            alertsContainer.innerHTML = '';
+            
+            data.forEach(alert => {
+                const alertCard = document.createElement('div');
+                alertCard.className = 'card border-l-4 border-l-red-500';
+                
+                let alertTypeIcon = 'triangle-exclamation';
+                if (alert.type === 'flood') alertTypeIcon = 'water';
+                if (alert.type === 'fire') alertTypeIcon = 'fire';
+                if (alert.type === 'earthquake') alertTypeIcon = 'house-damage';
+                if (alert.type === 'hurricane') alertTypeIcon = 'wind';
+                if (alert.type === 'tsunami') alertTypeIcon = 'water-rise';
+                
+                alertCard.innerHTML = `
+                    <div class="card-header bg-red-50 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-red-100 text-red-600 rounded-md">
+                                <i class="fas fa-${alertTypeIcon}"></i>
+                            </div>
+                            <div>
+                                <h2 class="card-title">${alert.title}</h2>
+                                <p class="text-sm text-gray-500">
+                                    Issued ${formatDate(alert.created_at)}
+                                </p>
+                            </div>
+                        </div>
+                        <span class="bg-red-100 text-red-600 text-xs font-medium px-2.5 py-0.5 rounded-full">ACTIVE</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="mb-4">${alert.description}</p>
+                        
+                        ${alert.locations && alert.locations.length > 0 ? `
+                            <div class="mb-4">
+                                <h3 class="text-sm font-semibold mb-2">Affected Areas:</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    ${alert.locations.map(location => 
+                                        `<span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">${location}</span>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="flex items-center justify-between">
+                            <a href="/safety" class="text-primary flex items-center gap-1 text-sm font-medium">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>View Safety Guidelines</span>
+                            </a>
+                            
+                            <button class="btn btn-outline btn-sm share-alert" data-alert-id="${alert.id}">
+                                <i class="fas fa-share-alt"></i>
+                                Share Alert
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                alertsContainer.appendChild(alertCard);
+            });
+            
+            // Add event listeners to share buttons
+            document.querySelectorAll('.share-alert').forEach(button => {
+                button.addEventListener('click', function() {
+                    const alertId = this.getAttribute('data-alert-id');
+                    alert(`Sharing functionality for alert ID ${alertId} would open a share dialog in production`);
+                });
+            });
+        })
+        .catch(error => {
+            alertsContainer.innerHTML = `
+                <div class="card">
+                    <div class="card-content text-center py-8">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-red-100 text-red-600 rounded-full mb-4">
+                            <i class="fas fa-exclamation-circle text-xl"></i>
+                        </div>
+                        <h2 class="text-xl font-semibold mb-2">Unable to Load Alerts</h2>
+                        <p class="text-gray-500">There was a problem loading emergency alerts. Please try again later.</p>
+                    </div>
+                </div>
+            `;
+            console.error('Error loading alerts:', error);
+        });
+}
+
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    
+    // Format: "April 10, 2025 at 2:30 PM"
+    return date.toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
+}
+</script>
+{% endblock %}
