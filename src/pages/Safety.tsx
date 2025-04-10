@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -8,6 +7,7 @@ import { AlertTriangle, CheckCircle2, Droplets, Home, Flame, Wind, Waves } from 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { safetyGuidelines } from '@/lib/mock-data';
+import { Link } from 'react-router-dom';
 
 const Safety = () => {
   const [currentDisaster, setCurrentDisaster] = useState<keyof typeof safetyGuidelines>("flood");
